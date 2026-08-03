@@ -1,0 +1,23 @@
+{
+  "name": "alchemy-furnace",
+  "version": "1.0.20260803",
+  "description": "炼丹炉 - 多语言主动通知库(TypeScript / JavaScript 版)",
+  "main": "AlchemyFurnace.ts",
+  "types": "AlchemyFurnace.ts",
+  "files": [
+    "AlchemyFurnace.ts",
+    "Example.ts",
+    "README.md"
+  ],
+  "optionalDependencies": {
+    "nodemailer": "^6.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/nodemailer": "^6.4.24",
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "example": "npx tsx Example.ts"
+  }
+}

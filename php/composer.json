@@ -1,0 +1,13 @@
+{
+    "name": "alchemy-furnace",
+    "version": "1.0.20260803",
+    "description": "炼丹炉 - 多语言主动通知库(PHP 版)",
+    "require": {
+        "ext-curl": "*",
+        "ext-json": "*",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "classmap": ["AlchemyFurnace.php"]
+    }
+}

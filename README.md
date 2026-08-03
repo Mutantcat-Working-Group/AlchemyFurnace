@@ -24,6 +24,9 @@
 | Go     | ✅   | 1.0.20260803 | ✅         | 仅标准库 |
 | C++    | ✅   | 1.0.20260803 | ✅(单 .hpp) | libcurl + OpenSSL + nlohmann/json |
 | Rust   | ✅   | 1.0.20260803 | ✅(单 .rs) | reqwest + lettre(Cargo) |
+| TypeScript | ✅ | 1.0.20260803 | ✅(单 .ts) | `nodemailer`(可选,邮箱时需要) |
+| PHP    | ✅   | 1.0.20260803 | ✅(单 .php) | `phpmailer/phpmailer`(Composer) |
+| C#     | ✅   | 1.0.20260803 | ✅(单 .cs) | `MailKit`(NuGet) |
 
 各语言的具体依赖、集成方式、完整示例代码见 **[多语言版文档](./README_MULTI_LANG.md)**。
 
@@ -103,11 +106,14 @@ af.send_message("标题", "正文,支持 **Markdown**")
 
 ```
 .
-├── python/   # Python 3,AlchemyFurnace.py + Example-DingBot.py
-├── java/     # Java 8+ / Maven
-├── go/       # Go 1.x,仅标准库
-├── c-cpp/    # C++11,libcurl + OpenSSL + nlohmann/json
-├── rust/     # Rust 2021 / Cargo
+├── python/       # Python 3,AlchemyFurnace.py + Example-DingBot.py
+├── java/         # Java 8+ / Maven
+├── go/           # Go 1.x,仅标准库
+├── c-cpp/        # C++11,libcurl + OpenSSL + nlohmann/json
+├── rust/         # Rust 2021 / Cargo
+├── typescript/   # TypeScript / JavaScript(Node 18+)
+├── php/          # PHP 7.4+ / Composer
+├── csharp/       # C# / .NET 7+
 ├── README.md
 ├── README_MULTI_LANG.md  # 各语言详细文档
 └── CHANGELOG.md
@@ -118,7 +124,7 @@ af.send_message("标题", "正文,支持 **Markdown**")
 - [x] 通过钉钉机器人发送消息
 - [x] 通过邮箱发送消息
 - [x] 通过 Server酱(Turbo)发送消息
-- [x] Java / Go / C++ / Rust 多语言版
+- [x] Java / Go / C++ / Rust / TypeScript / PHP / C# 多语言版
 - [ ] 更多通知方式(企业微信、飞书、Telegram 等,欢迎贡献)
 
 ### 七、相关项目

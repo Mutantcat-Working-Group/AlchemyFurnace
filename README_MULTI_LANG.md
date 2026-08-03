@@ -6,11 +6,14 @@
 
 ```
 .
-├── python/   Python 3(仅依赖 requests)
-├── java/     Java 8+ / Maven(依赖 org.json + javax.mail)
-├── go/       Go 1.x(仅标准库)
-├── c-cpp/    C++11(libcurl + OpenSSL + nlohmann/json)
-└── rust/     Rust 2021 / Cargo(reqwest + lettre)
+├── python/       # Python 3(仅依赖 requests)
+├── java/         # Java 8+ / Maven(依赖 org.json + javax.mail)
+├── go/           # Go 1.x(仅标准库)
+├── c-cpp/        # C++11(libcurl + OpenSSL + nlohmann/json)
+├── rust/         # Rust 2021 / Cargo(reqwest + lettre)
+├── typescript/   # TypeScript / JavaScript(Node 18+,可选 nodemailer)
+├── php/          # PHP 7.4+ / Composer(phpmailer/phpmailer)
+└── csharp/       # C# / .NET 7+(MailKit)
 ```
 
 > **Java 注意**:`javax.mail` 在 Java 8 自带,Java 11+ 起需单独引入(`com.sun.mail:javax.mail`)。`pom.xml` 已包含。
@@ -25,7 +28,10 @@
 | Java   | `org.json`(JSON 解析,jar ~500KB) + `javax.mail`(JavaMail)                         | 把 `java/` 作为 Maven 模块引入;或把 `AlchemyFurnace.java` 连同 jar 一起放进项目 |
 | Go     | 仅标准库                                                                          | 把 `AlchemyFurnace.go` 放进任意 package 即可                                   |
 | C++    | `libcurl`(HTTP) + `OpenSSL`(TLS/HMAC/base64) + `nlohmann/json`(JSON,header-only)  | 把 `AlchemyFurnace.hpp` 放进 include 路径,编译时链接 `-lcurl -lssl -lcrypto`   |
-| Rust   | `reqwest`(HTTP) + `lettre`(SMTP) + `serde`(序列化) + `hmac/sha2`(签名)            | 把 `rust/` 作为 workspace 成员,或在 `Cetero.toml` 添加对应依赖                  |
+| Rust   | `reqwest`(HTTP) + `lettre`(SMTP) + `serde`(序列化) + `hmac/sha2`(签名)            | 把 `rust/` 作为 workspace 成员,或在 `Cargo.toml` 添加对应依赖                  |
+| TypeScript | Node 18+ 内置 `fetch` + `nodemailer`(邮箱可选)                                | `npm install`(可选 `nodemailer`),直接 `import` `AlchemyFurnace.ts`             |
+| PHP    | `curl` 扩展 + `phpmailer/phpmailer`                                               | `composer require phpmailer/phpmailer`,直接 `require` `AlchemyFurnace.php`      |
+| C#     | `MailKit`(NuGet) + `System.Net.Http`(.NET 内置)                                   | `dotnet add package MailKit`,把 `src/AlchemyFurnace.cs` 放进项目                |
 
 ## 参数语义(所有语言通用)
 
@@ -81,6 +87,32 @@ af.send_message("标题", "正文", None);
 ```
 参照 `rust/src/example.rs`,运行:`cd cargo run --bin example`。
 
+### TypeScript
+```typescript
+import { AlchemyFurnace } from './AlchemyFurnace';
+const af = new AlchemyFurnace('email', 'smtp.qq.com:465', '授权码', 'me@qq.com');
+await af.sendMessage('标题', '正文');
+await af.sendMessage('标题', '正文', 'other@xx.com');
+```
+参照 `typescript/Example.ts`,运行:`cd typescript && npm install && npx tsx Example.ts`。
+
+### PHP
+```php
+require_once __DIR__ . '/AlchemyFurnace.php';
+use AlchemyFurnace\AlchemyFurnace;
+$af = new AlchemyFurnace('serverchan', 'SCTxxxx', '', '');
+$af->send_message('标题', '正文');
+```
+参照 `php/Example.php`,运行:`cd php && composer install && php Example.php`。
+
+### C#
+```csharp
+using AlchemyFurnace;
+var af = new AlchemyFurnace("dingbot", token, secret, appkey);
+af.SendMessage("title", "message");
+```
+参照 `csharp/example/Program.cs`,运行:`cd csharp && dotnet run --project example`。
+
 ## 凭据管理
 
 所有示例都通过环境变量读取敏感信息,避免硬编码:
@@ -93,27 +125,25 @@ af.send_message("标题", "正文", None);
 
 ## 各版本实现对照
 
-| 功能            | Python | Java | Go | C++ | Rust |
-| --------------- | :----: | :--: | :-: | :-: | :--: |
-| 钉钉 markdown   |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| 钉钉 @所有人    |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| 钉钉上传图片    |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| 邮箱            |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| Server酱        |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| 异常兜底        |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
-| 凭据脱敏        |   ✅   |  ✅  | ✅  | ✅  |  ✅  |
+| 功能            | Python | Java | Go | C++ | Rust | TS | PHP | C# |
+| --------------- | :----: | :--: | :-: | :-: | :--: | :-: | :-: | :-: |
+| 钉钉 markdown   |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| 钉钉 @所有人    |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| 钉钉上传图片    |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| 邮箱            |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| Server酱        |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| 异常兜底        |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
+| 凭据脱敏        |   ✅   |  ✅  | ✅  | ✅  |  ✅  | ✅  | ✅  | ✅  |
 
 ## 后续计划
 
 以下语言/通道在计划或欢迎贡献:
 
-- **JavaScript / TypeScript**(Node.js,`node-fetch` + `nodemailer`)
-- **PHP**(`curl` + `PHPMailer`)
-- **C# / .NET**
-- **Kotlin**(JVM)
+- **Kotlin**(JVM,Android)
 - **Swift**(Apple 平台)
 - **Dart / Flutter**
 - **Ruby**
+- **C / C**(单独的纯 C 版)
 - 通知通道:企业微信、飞书、Telegram Bot、Bark、Slack、PushPlus、Discord Webhook 等
 
 欢迎提交 Pull Request。
