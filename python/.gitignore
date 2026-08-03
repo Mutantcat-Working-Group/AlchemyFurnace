@@ -1,0 +1,7 @@
+# 敏感凭据
+.env
+
+# Python
+__pycache__/
+*.pyc
+.idea/

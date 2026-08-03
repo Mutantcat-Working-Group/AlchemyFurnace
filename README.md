@@ -16,13 +16,13 @@
 
 ### 三、语言支持
 
-| 语言   | 是否实现 | 版本号     | 说明                   |
-| ------ | -------- | ---------- | ---------------------- |
-| Python | ✅        | 1.0.240410 | 支持钉钉机器人通知方式 |
-| Java   |          |            |                        |
-| Go     |          |            |                        |
-| C/C++  |          |            |                        |
-| Rust   |          |            |                        |
+| 语言   | 是否实现 | 版本号     | 说明                                       |
+| ------ | -------- | ---------- | ------------------------------------------ |
+| Python | ✅        | 1.0.260803 | 支持钉钉机器人、邮箱、Server酱通知方式 |
+| Java   |          |            |                                            |
+| Go     |          |            |                                            |
+| C/C++  |          |            |                                            |
+| Rust   |          |            |                                            |
 
 ### 四、详细说明
 
@@ -42,9 +42,52 @@
 ### 五、开发进度
 
 - [x] 通过钉钉机器人发送消息
-- [ ] 通过邮箱发送消息
-- [ ] 通过Server酱发送消息
+- [x] 通过邮箱发送消息
+- [x] 通过Server酱发送消息
 
-### 六、相关项目
+### 六、各模式参数说明
+
+`AlchemyFurnace(notice_way, token, secret0, secret1)` 四个参数在不同 `notice_way` 下含义不同:
+
+| 参数       | dingbot                        | email                                | serverchan / sct                     |
+| ---------- | ------------------------------ | ------------------------------------ | ------------------------------------ |
+| token      | 钉钉机器人 access_token 后半段 | SMTP 服务器地址,格式 `host:port`     | Server酱 SendKey                     |
+| secret0    | 加签密钥                       | 发件人邮箱密码/授权码                | 可选,推送渠道 `channel`(多个 `\|` 分隔) |
+| secret1    | 机器人 AppKey(上传图片时需要)  | 发件人邮箱地址                       | 可选,微信接收者 `openid`             |
+
+#### 邮箱模式示例
+
+请先在对应邮箱后台开启 SMTP 并获取授权码(非登录密码),例如 QQ 邮箱为 `smtp.qq.com:465`。
+
+```python
+from AlchemyFurnace import AlchemyFurnace
+
+af = AlchemyFurnace(
+    notice_way="email",
+    token="smtp.qq.com:465",
+    secret0="你的邮箱授权码",
+    secret1="sender@qq.com",
+)
+af.send_message("标题", "正文")                       # 发给自己(用 secret1 作为收件人)
+af.send_message("标题", "正文", to="someone@xx.com")  # 发给指定收件人
+```
+
+#### Server酱模式示例
+
+在 [Server酱](https://sct.ftqq.com/) 获取 SendKey 后使用:
+
+```python
+from AlchemyFurnace import AlchemyFurnace
+
+af = AlchemyFurnace(
+    notice_way="serverchan",
+    token="SCTxxxxxxxxxxxxxxxx",
+    secret0="",  # 可选:渠道
+    secret1="",  # 可选:微信 openid
+)
+af.send_message("标题", "正文,支持 **Markdown**")
+```
+
+### 七、相关项目
 
 - [MutantCat-Working-Group/Echoes: 回声 (github.com)](https://github.com/MutantCat-Working-Group/Echoes)
