@@ -7,7 +7,7 @@
 
 炼丹炉(AlchemyFurnace,简称 af)是一个**主动向外部发送通知消息**的轻量库,核心特点:
 
-- **多语言**:提供 Python / Java / Go / C++ / Rust 五种语言实现,API 语义一致
+- **多语言**:提供 Python / Java / Go / C++ / Rust / TypeScript / PHP / C# 八种语言实现,API 语义一致
 - **零封装**:直接以代码文件形式交付,大多数语言只需一个文件即可集成
 - **多通道**:支持**钉钉机器人**、**邮箱**、**Server酱**三种通知方式
 - **零抛异常**:所有网络请求库内部兜底,不会因通知失败导致宿主程序崩溃
@@ -83,6 +83,22 @@ af.send_message("标题", "正文,支持 **Markdown**")
 ```
 
 #### 钉钉模式
+
+在[钉钉开放平台](https://open.dingtalk.com/)创建机器人,获取 access_token、加签密钥、AppKey:
+
+```python
+from AlchemyFurnace import AlchemyFurnace
+
+af = AlchemyFurnace(
+    notice_way="dingbot",
+    token="9b0e99c6927d659...",                  # access_token 后半段
+    secret0="JOSLGXrxc1OpN9lMh74ZRjz2jY93...",   # 加签密钥
+    secret1="dingevhxws5o44rbhpbd",              # AppKey(上传图片时需要)
+)
+af.send_message("标题", "正文,支持 **Markdown**")
+af.send_message_at("标题", "正文")                # @所有人
+af.send_message("标题", "![image](...)")         # 带图片
+```
 
 参照 `python/Example-DingBot.py`(其他语言目录也各有 `Example` 文件)。
 
