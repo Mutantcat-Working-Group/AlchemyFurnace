@@ -1,5 +1,5 @@
 use std::env;
-use alchemy_furnace::{AlchemyFurnace, DingBot, Email, ServerChan};
+use alchemy_furnace::{AlchemyFurnace, Email, ServerChan};
 
 fn main() {
     // 1) 钉钉

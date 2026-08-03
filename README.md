@@ -4,60 +4,51 @@
 </div>
 
 ### 一、功能简述
-- 各种编程语言的主动向外部发送信息的库，部分模式支持发送图片，以下简称为af。
-- 直接以代码而不是包装后的各种形式提供，大多只有一个文件。
-- 需要运行设备支持联网！训练模型时候的控制台日志，服务运行异常报错等均可使用本库发送提醒消息。
 
-### 二、使用方法
+炼丹炉(AlchemyFurnace,简称 af)是一个**主动向外部发送通知消息**的轻量库,核心特点:
 
-1. 在你的程序中添加对应的程序文件。
-2. 在代码中引入功能并按说明简单调用即可。
-3. 请注意，如果使用的是带异常处理机制的编程语言，请在af操作时进行异常处理，因为网络请求可能出现一些特殊情况，导致的运行时异常或许会导致整个程序停止运行。
+- **多语言**:提供 Python / Java / Go / C++ / Rust 五种语言实现,API 语义一致
+- **零封装**:直接以代码文件形式交付,大多数语言只需一个文件即可集成
+- **多通道**:支持**钉钉机器人**、**邮箱**、**Server酱**三种通知方式
+- **零抛异常**:所有网络请求库内部兜底,不会因通知失败导致宿主程序崩溃
+- **凭据安全**:示例一律通过环境变量读取敏感信息,避免硬编码
 
-### 三、语言支持
+典型场景:训练模型时推送日志、服务异常时发告警、定时任务完成通知等。运行设备需要联网。
 
-| 语言   | 是否实现 | 版本号     | 说明                                       |
-| ------ | -------- | ---------- | ------------------------------------------ |
-| Python | ✅        | 1.0.260803 | 支持钉钉机器人、邮箱、Server酱通知方式 |
-| Java   |          |            |                                            |
-| Go     |          |            |                                            |
-| C/C++  |          |            |                                            |
-| Rust   |          |            |                                            |
+### 二、语言支持
 
-### 四、详细说明
+| 语言   | 实现 | 版本号       | 单文件集成 | 第三方依赖 |
+| ------ | ---- | ------------ | ---------- | ---------- |
+| Python | ✅   | 1.0.20260803 | ✅         | `requests` |
+| Java   | ✅   | 1.0.20260803 | ✅(单 .java) | `org.json` + `javax.mail`(Maven) |
+| Go     | ✅   | 1.0.20260803 | ✅         | 仅标准库 |
+| C++    | ✅   | 1.0.20260803 | ✅(单 .hpp) | libcurl + OpenSSL + nlohmann/json |
+| Rust   | ✅   | 1.0.20260803 | ✅(单 .rs) | reqwest + lettre(Cargo) |
 
-1. Python版本
+各语言的具体依赖、集成方式、完整示例代码见 **[多语言版文档](./README_MULTI_LANG.md)**。
 
-   - 使用方法可参照Example.py
+### 三、快速上手
 
-   - 功能列表
+所有语言版本的调用模式一致:
 
-     | 性质 | 方法名                 | 参数列表                            | 说明                                                         |
-     | ---- | ---------------------- | ----------------------------------- | ------------------------------------------------------------ |
-     | 构造 | AlchemyFurnac          | notice_way, token, secret0, secret1 | af类的构造方法，每个参数都可缺省，但是注意标明参数名，并且留意自己需要的通知方式所需的参数，否则会造成后续操作的异常<br/>notice_way: 通知方式 （dingbot...）<br/>token: 发送的token或地址等信息<br/>secret0: 发送目标的密钥的第一部分<br/>secret1: 发送目标的密钥的第二部分<br/>对于dingbot模式，token代表Webhook地址后面的token，secret0代表加签的密钥或AppSecret，secret1代表机器人的AppKey |
-     | 功能 | send_message           | title, message                      | 发送消息（必填token、secret0）<br/>title:消息标题<br/>message:消息内容<br/>对于dingbot模式，发送的消息为MarkDown消息 |
-     | 功能 | get_ding_image_mediaid | img                                 | 通过图片获得钉钉开放平台的mediaid（钉钉模式下生效，必填secret1、secret0），用于在markdown中插入图片信息<br/>img:要发送的文件路径<br/>注意，此功能仅对dingbot模式有用 |
-     | 功能 | send_message_at        | title, message                      | 发送消息并且@<br/>title:消息标题<br/>message:消息内容<br/>对于dingbot模式，会在群中艾特所有人 |
+```text
+AlchemyFurnace(notice_way, token, secret0, secret1)
+af.send_message(title, message[, to])   # 发送消息
+af.send_message_at(title, message)      # 钉钉 @所有人(仅 dingbot 模式)
+af.get_ding_image_mediaid(img_path)     # 上传图片(仅 dingbot 模式)
+```
 
-### 五、开发进度
+参数在不同 `notice_way` 下的含义:
 
-- [x] 通过钉钉机器人发送消息
-- [x] 通过邮箱发送消息
-- [x] 通过Server酱发送消息
+| 参数     | dingbot                       | email                             | serverchan / sct                  |
+| -------- | ----------------------------- | --------------------------------- | --------------------------------- |
+| token    | 钉钉机器人 access_token 后半段 | SMTP 服务器地址,格式 `host:port`  | Server酱 SendKey                  |
+| secret0  | 加签密钥                      | 发件人邮箱密码/授权码             | 可选,推送渠道 `channel`(`\|` 分隔) |
+| secret1  | 机器人 AppKey(上传图片时需要) | 发件人邮箱地址                    | 可选,微信接收者 `openid`          |
 
-### 六、各模式参数说明
+#### 邮箱模式
 
-`AlchemyFurnace(notice_way, token, secret0, secret1)` 四个参数在不同 `notice_way` 下含义不同:
-
-| 参数       | dingbot                        | email                                | serverchan / sct                     |
-| ---------- | ------------------------------ | ------------------------------------ | ------------------------------------ |
-| token      | 钉钉机器人 access_token 后半段 | SMTP 服务器地址,格式 `host:port`     | Server酱 SendKey                     |
-| secret0    | 加签密钥                       | 发件人邮箱密码/授权码                | 可选,推送渠道 `channel`(多个 `\|` 分隔) |
-| secret1    | 机器人 AppKey(上传图片时需要)  | 发件人邮箱地址                       | 可选,微信接收者 `openid`             |
-
-#### 邮箱模式示例
-
-请先在对应邮箱后台开启 SMTP 并获取授权码(非登录密码),例如 QQ 邮箱为 `smtp.qq.com:465`。
+在邮箱后台开启 SMTP 并获得**授权码**(非登录密码)。以 QQ 邮箱为例:
 
 ```python
 from AlchemyFurnace import AlchemyFurnace
@@ -68,13 +59,13 @@ af = AlchemyFurnace(
     secret0="你的邮箱授权码",
     secret1="sender@qq.com",
 )
-af.send_message("标题", "正文")                       # 发给自己(用 secret1 作为收件人)
-af.send_message("标题", "正文", to="someone@xx.com")  # 发给指定收件人
+af.send_message("标题", "正文")                      # 默认发给自己
+af.send_message("标题", "正文", to="other@xx.com")   # 发给指定收件人
 ```
 
-#### Server酱模式示例
+#### Server酱模式
 
-在 [Server酱](https://sct.ftqq.com/) 获取 SendKey 后使用:
+在 [Server酱官网](https://sct.ftqq.com/) 获取 SendKey:
 
 ```python
 from AlchemyFurnace import AlchemyFurnace
@@ -88,6 +79,49 @@ af = AlchemyFurnace(
 af.send_message("标题", "正文,支持 **Markdown**")
 ```
 
+#### 钉钉模式
+
+参照 `python/Example-DingBot.py`(其他语言目录也各有 `Example` 文件)。
+
+### 四、凭据管理
+
+**严禁将 token / 授权码硬编码到代码中**。各语言示例一律通过环境变量读取:
+
+| 环境变量            | 用途                          |
+| ------------------- | ----------------------------- |
+| `DINGBOT_TOKEN`     | 钉钉机器人 access_token       |
+| `DINGBOT_SECRET`    | 钉钉加签密钥                  |
+| `DINGBOT_APPKEY`    | 钉钉机器人 AppKey(上传图片用) |
+| `EMAIL_SMTP`        | SMTP 服务器地址 `host:port`   |
+| `EMAIL_PASSWORD`    | 发件人邮箱授权码              |
+| `EMAIL_USER`        | 发件人邮箱地址                |
+| `SERVERCHAN_KEY`    | Server酱 SendKey              |
+
+每个语言目录下都提供了 `.env.example` 占位模板和 `.gitignore`(已忽略 `.env` 文件),可在本地复制为 `.env` 后填入真实值。
+
+### 五、项目结构
+
+```
+.
+├── python/   # Python 3,AlchemyFurnace.py + Example-DingBot.py
+├── java/     # Java 8+ / Maven
+├── go/       # Go 1.x,仅标准库
+├── c-cpp/    # C++11,libcurl + OpenSSL + nlohmann/json
+├── rust/     # Rust 2021 / Cargo
+├── README.md
+├── README_MULTI_LANG.md  # 各语言详细文档
+└── CHANGELOG.md
+```
+
+### 六、开发进度
+
+- [x] 通过钉钉机器人发送消息
+- [x] 通过邮箱发送消息
+- [x] 通过 Server酱(Turbo)发送消息
+- [x] Java / Go / C++ / Rust 多语言版
+- [ ] 更多通知方式(企业微信、飞书、Telegram 等,欢迎贡献)
+
 ### 七、相关项目
 
-- [MutantCat-Working-Group/Echoes: 回声 (github.com)](https://github.com/MutantCat-Working-Group/Echoes)
+- [Echoes(回声)](https://github.com/MutantCat-Working-Group/Echoes) — 同组织配套项目
+- [多语言版详细文档](./README_MULTI_LANG.md) — 依赖、集成方式、各语言示例代码、功能对照表

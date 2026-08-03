@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mutantcat</groupId>
     <artifactId>alchemy-furnace</artifactId>
-    <version>1.0.260803</version>
+    <version>1.0.20260803</version>
     <packaging>jar</packaging>
 
     <properties>

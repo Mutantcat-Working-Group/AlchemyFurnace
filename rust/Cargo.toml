@@ -1,6 +1,6 @@
 [package]
 name = "alchemy-furnace"
-version = "1.0.260803"
+version = "1.0.20260803"
 edition = "2021"
 
 [dependencies]

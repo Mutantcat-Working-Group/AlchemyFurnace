@@ -1,3 +1,4 @@
+use base64::Engine;
 use hmac::{Hmac, Mac};
 use serde::Deserialize;
 use sha2::Sha256;
@@ -28,7 +29,7 @@ impl DingBot {
         let string_to_sign = format!("{}\n{}", ts, self.secret);
         let mut mac = HmacSha256::new_from_slice(self.secret.as_bytes()).expect("HMAC can take key");
         mac.update(string_to_sign.as_bytes());
-        let sign = base64::encode(mac.finalize().into_bytes());
+        let sign = base64::engine::general_purpose::STANDARD.encode(mac.finalize().into_bytes());
         let sign = urlencoding::encode(&sign);
         format!("&timestamp={}&sign={}", ts, sign)
     }
@@ -141,7 +142,7 @@ impl Email {
     }
 
     fn try_port(&self, port: u16, subject: &str, content: &str, to: &str) -> bool {
-        use lettre::message::{Message, MultiPart, SinglePart};
+        use lettre::message::{Message, MultiPart};
         use lettre::transport::smtp::client::{Tls, TlsParameters};
         use lettre::{SmtpTransport, Transport};
 
@@ -164,12 +165,12 @@ impl Email {
 
         let result = if port == 465 {
             let mailer = SmtpTransport::relay(&self.host)
-                .and_then(|b| b.port(port).tls(Tls::Wrapper(tls)).credentials(self.creds()).build());
-            mailer.send(&msg)
+                .and_then(|b| Ok(b.port(port).tls(Tls::Wrapper(tls)).credentials(self.creds()).build()));
+            mailer.and_then(|m| m.send(&msg).map_err(|e| e.into()))
         } else if port == 587 {
             let mailer = SmtpTransport::starttls_relay(&self.host)
-                .and_then(|b| b.port(port).tls(tls).credentials(self.creds()).build());
-            mailer.send(&msg)
+                .and_then(|b| Ok(b.port(port).tls(Tls::Required(tls)).credentials(self.creds()).build()));
+            mailer.and_then(|m| m.send(&msg).map_err(|e| e.into()))
         } else {
             let mailer = SmtpTransport::builder_dangerous(&self.host).port(port).credentials(self.creds()).build();
             mailer.send(&msg)
