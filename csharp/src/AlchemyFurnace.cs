@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -244,7 +245,7 @@ namespace AlchemyFurnace
             if (string.IsNullOrEmpty(_sendkey)) { Console.Error.WriteLine("ServerChan.Send 失败: 未配置 SendKey"); return false; }
             if (string.IsNullOrEmpty(title) && string.IsNullOrEmpty(desp)) { Console.Error.WriteLine("ServerChan.Send 失败: title 与 desp 不能同时为空"); return false; }
 
-            var form = new System.Collections.Generic.List<KeyValuePair<string, string>>
+            var form = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("title", title),
                 new KeyValuePair<string, string>("desp", desp),

@@ -84,7 +84,7 @@ jobs:
         working-directory: c-cpp
     steps:
       - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
+      - run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev nlohmann-json3-dev
       - run: g++ -std=c++11 -fsyntax-only Example.cpp
 
   csharp:
