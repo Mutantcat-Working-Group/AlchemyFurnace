@@ -29,7 +29,7 @@ namespace AlchemyFurnace
     /// </summary>
     public class AlchemyFurnace
     {
-        private static readonly HttpClient Http = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
+        internal static readonly HttpClient Http = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
 
         public string NoticeWay { get; set; } = "";
         public string Token { get; set; } = "";
