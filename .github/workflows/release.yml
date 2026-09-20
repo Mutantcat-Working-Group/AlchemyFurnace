@@ -68,7 +68,10 @@ jobs:
 
       - name: C/C++
         working-directory: c-cpp
-        run: g++ -std=c++11 -fsyntax-only Example.cpp
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev
+          g++ -std=c++11 -fsyntax-only Example.cpp
 
       - name: C#
         working-directory: csharp/src

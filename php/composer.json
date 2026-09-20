@@ -1,5 +1,5 @@
 {
-    "name": "alchemy-furnace",
+    "name": "mutantcat-working-group/alchemyfurnace",
     "version": "1.0.20260920",
     "description": "炼丹炉 - 多语言主动通知库(PHP 版)",
     "require": {
