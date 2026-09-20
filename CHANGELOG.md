@@ -1,3 +1,6 @@
+### 1.0.20260920
+  - 多语言实现版本统一为 1.0.20260920
+
 ### 1.0.20260803
   - 新增邮箱通知方式(Email 类),仅依赖 Python 标准库,支持 SSL/STARTTLS 自动探测
   - 新增 Server酱(Turbo 版)通知方式(ServerChan 类),使用 sctapi.ftqq.com 接口

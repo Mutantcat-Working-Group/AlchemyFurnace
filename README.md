@@ -19,14 +19,14 @@
 
 | 语言   | 实现 | 版本号       | 单文件集成 | 第三方依赖 |
 | ------ | ---- | ------------ | ---------- | ---------- |
-| Python | ✅   | 1.0.20260803 | ✅         | `requests` |
-| Java   | ✅   | 1.0.20260803 | ✅(单 .java) | `org.json` + `javax.mail`(Maven) |
-| Go     | ✅   | 1.0.20260803 | ✅         | 仅标准库 |
-| C++    | ✅   | 1.0.20260803 | ✅(单 .hpp) | libcurl + OpenSSL + nlohmann/json |
-| Rust   | ✅   | 1.0.20260803 | ✅(单 .rs) | reqwest + lettre(Cargo) |
-| TypeScript | ✅ | 1.0.20260803 | ✅(单 .ts) | `nodemailer`(可选,邮箱时需要) |
-| PHP    | ✅   | 1.0.20260803 | ✅(单 .php) | `phpmailer/phpmailer`(Composer) |
-| C#     | ✅   | 1.0.20260803 | ✅(单 .cs) | `MailKit`(NuGet) |
+| Python | ✅   | 1.0.20260920 | ✅         | `requests` |
+| Java   | ✅   | 1.0.20260920 | ✅(单 .java) | `org.json` + `javax.mail`(Maven) |
+| Go     | ✅   | 1.0.20260920 | ✅         | 仅标准库 |
+| C++    | ✅   | 1.0.20260920 | ✅(单 .hpp) | libcurl + OpenSSL + nlohmann/json |
+| Rust   | ✅   | 1.0.20260920 | ✅(单 .rs) | reqwest + lettre(Cargo) |
+| TypeScript | ✅ | 1.0.20260920 | ✅(单 .ts) | `nodemailer`(可选,邮箱时需要) |
+| PHP    | ✅   | 1.0.20260920 | ✅(单 .php) | `phpmailer/phpmailer`(Composer) |
+| C#     | ✅   | 1.0.20260920 | ✅(单 .cs) | `MailKit`(NuGet) |
 
 各语言的具体依赖、集成方式、完整示例代码见 **[多语言版文档](./README_MULTI_LANG.md)**。
 

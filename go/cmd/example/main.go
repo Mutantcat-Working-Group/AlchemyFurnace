@@ -5,7 +5,7 @@ package main
 import (
 	"os"
 
-	af "github.com/yourname/yourproject/go" // 根据实际项目调整 import 路径
+	af "com.mutantcat/alchemyfurnace"
 )
 
 func main() {
