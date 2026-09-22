@@ -3,7 +3,7 @@
 <h2>炼丹炉</h2>
 </div>
 
-### 一、功能简述
+### 一、产品概述
 
 炼丹炉(AlchemyFurnace,简称 af)是一个**主动向外部发送通知消息**的轻量库,核心特点:
 
@@ -145,5 +145,5 @@ af.send_message("标题", "![image](...)")         # 带图片
 
 ### 七、相关项目
 
-- [Echoes(回声)](https://github.com/MutantCat-Working-Group/Echoes) — 同组织配套项目
+- [Echoes(回声)](https://github.com/Mutantcat-Working-Group/Echoes) — 同组织配套项目
 - [多语言版详细文档](./README_MULTI_LANG.md) — 依赖、集成方式、各语言示例代码、功能对照表
