@@ -1,6 +1,7 @@
 /**
  * 炼丹炉 TypeScript / JavaScript 版
  * https://github.com/MutantCat-Working-Group/AlchemyFurnace
+ * 由异猫工作群（mutantcat.org）发行
  *
  * 依赖(可选,推荐):
  *   npm install nodemailer          # 邮箱发送

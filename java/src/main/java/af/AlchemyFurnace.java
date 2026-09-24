@@ -1,3 +1,7 @@
+// 炼丹炉 Java 版
+// https://github.com/MutantCat-Working-Group/AlchemyFurnace
+// 由异猫工作群（mutantcat.org）发行
+
 package af;
 
 import java.io.BufferedReader;
@@ -43,6 +47,8 @@ import org.json.JSONObject;
  *                serverchan → 可选,微信接收者 openid
  *
  * 依赖: Java 8+ 标准库 + org.json(JSON 解析,单 jar 约 500KB,可随项目一起引入)
+ *
+ * 由异猫工作群（mutantcat.org）发行：https://github.com/Mutantcat-Working-Group
  */
 public class AlchemyFurnace {
     private String noticeWay;

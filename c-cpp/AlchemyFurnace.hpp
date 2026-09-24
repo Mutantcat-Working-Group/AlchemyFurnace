@@ -1,5 +1,6 @@
 // 炼丹炉 - 多通知方式统一入口(C++ 版本)
 // https://github.com/MutantCat-Working-Group/AlchemyFurnace
+// 由异猫工作群（mutantcat.org）发行
 //
 // 依赖:
 //   - libcurl (HTTP)

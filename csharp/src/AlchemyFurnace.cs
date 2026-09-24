@@ -14,6 +14,7 @@ namespace AlchemyFurnace
     /// <summary>
     /// 炼丹炉 - 多通知方式统一入口
     /// https://github.com/MutantCat-Working-Group/AlchemyFurnace
+    /// 由异猫工作群（mutantcat.org）发行
     ///
     /// 参数语义(按 noticeWay 不同):
     ///   noticeWay : dingbot | email | serverchan/sct

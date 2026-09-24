@@ -1,3 +1,7 @@
+// 炼丹炉 Rust 版
+// https://github.com/MutantCat-Working-Group/AlchemyFurnace
+// 由异猫工作群（mutantcat.org）发行
+
 use base64::Engine;
 use hmac::{Hmac, Mac};
 use serde::Deserialize;

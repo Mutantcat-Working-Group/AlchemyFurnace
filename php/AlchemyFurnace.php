@@ -2,6 +2,7 @@
 /**
  * 炼丹炉 PHP 版
  * https://github.com/MutantCat-Working-Group/AlchemyFurnace
+ * 由异猫工作群（mutantcat.org）发行
  *
  * 依赖(通过 Composer):
  *   composer require phpmailer/phpmailer

@@ -12,6 +12,7 @@ import requests
 
 # 炼丹炉
 # https://github.com/MutantCat-Working-Group/AlchemyFurnace
+# 由异猫工作群（mutantcat.org）发行
 #
 # 参数语义(按 notice_way 不同,同名字段含义不同):
 #   notice_way : 通知方式 (dingbot | email | serverchan/sct)

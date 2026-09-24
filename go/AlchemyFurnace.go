@@ -1,5 +1,6 @@
 // 炼丹炉 - 多通知方式统一入口(Go 版本)
 // https://github.com/MutantCat-Working-Group/AlchemyFurnace
+// 由异猫工作群（mutantcat.org）发行
 //
 // 仅使用 Go 标准库,无第三方依赖。
 //
